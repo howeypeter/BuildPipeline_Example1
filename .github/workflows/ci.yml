@@ -126,7 +126,17 @@ jobs:
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           IMAGE_TAG="${{ env.REGISTRY }}/${{ steps.vars.outputs.repo_path }}:${{ steps.vars.outputs.service_slug }}-sha-${{ steps.vars.outputs.sha_short }}"
-          docker push $IMAGE_TAG
+          for attempt in 1 2 3 4 5; do
+            echo "Publish attempt $attempt of 5 for $IMAGE_TAG..."
+            if docker push "$IMAGE_TAG"; then
+              echo "Successfully pushed $IMAGE_TAG"
+              exit 0
+            fi
+            echo "Push failed on attempt $attempt, waiting 5 seconds before retrying..."
+            sleep 5
+          done
+          echo "Failed to push $IMAGE_TAG after 5 attempts"
+          exit 1
 
       - name: Generate Pipeline Step Summary
         if: always()

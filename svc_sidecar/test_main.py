@@ -16,9 +16,7 @@ class TestSidecarService(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.service = SidecarService(host="127.0.0.1", port=0, log_level="WARNING")
-        cls.server = ThreadingHTTPServer(
-            (cls.service.host, cls.service.port), SidecarHandler
-        )
+        cls.server = ThreadingHTTPServer((cls.service.host, cls.service.port), SidecarHandler)
         cls.server.service = cls.service
         cls.service.server = cls.server
         cls.port = cls.server.server_address[1]

@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Minimal sidecar microservice using only Python standard library.
 
 Endpoints:
@@ -75,15 +74,11 @@ class SidecarHandler(BaseHTTPRequestHandler):
         status_code = HTTPStatus.OK
 
         if self.path == "/healthz":
-            self._send_json(
-                HTTPStatus.OK, {"status": "alive", "service": "svc_sidecar"}
-            )
+            self._send_json(HTTPStatus.OK, {"status": "alive", "service": "svc_sidecar"})
             status_code = HTTPStatus.OK
         elif self.path == "/readyz":
             if self.server.service.is_ready():
-                self._send_json(
-                    HTTPStatus.OK, {"status": "ready", "service": "svc_sidecar"}
-                )
+                self._send_json(HTTPStatus.OK, {"status": "ready", "service": "svc_sidecar"})
                 status_code = HTTPStatus.OK
             else:
                 self._send_json(
@@ -97,9 +92,7 @@ class SidecarHandler(BaseHTTPRequestHandler):
                 {
                     "service": "svc_sidecar",
                     "role": "metrics_and_telemetry_sidecar",
-                    "uptime_seconds": round(
-                        time.time() - self.server.service.start_time, 2
-                    ),
+                    "uptime_seconds": round(time.time() - self.server.service.start_time, 2),
                     "status": "operational",
                 },
             )
@@ -116,9 +109,7 @@ class SidecarHandler(BaseHTTPRequestHandler):
                 "path": self.path,
                 "status": status_code.value,
                 "duration_ms": duration_ms,
-                "client_ip": self.client_address[0]
-                if self.client_address
-                else "unknown",
+                "client_ip": self.client_address[0] if self.client_address else "unknown",
             },
         )
 
@@ -126,9 +117,7 @@ class SidecarHandler(BaseHTTPRequestHandler):
 class SidecarService:
     """Manages sidecar HTTP server and lifecycle."""
 
-    def __init__(
-        self, host: str = "0.0.0.0", port: int = 8000, log_level: str = "INFO"
-    ):
+    def __init__(self, host: str = "0.0.0.0", port: int = 8000, log_level: str = "INFO"):
         self.host = host
         self.port = port
         self.logger = setup_logging(log_level)

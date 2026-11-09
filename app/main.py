@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Minimal production-ready HTTP service using only Python standard library.
 
 Endpoints:
@@ -167,9 +166,7 @@ class ServiceRequestHandler(BaseHTTPRequestHandler):
                     "path": self.path,
                     "status": self._status_code,
                     "duration_ms": duration_ms,
-                    "client_ip": self.client_address[0]
-                    if self.client_address
-                    else "unknown",
+                    "client_ip": self.client_address[0] if self.client_address else "unknown",
                     "request_id": self._request_id,
                 },
             )
@@ -196,9 +193,7 @@ class ServiceRequestHandler(BaseHTTPRequestHandler):
             if self.is_ready and self.is_ready.is_set():
                 self._send_json(HTTPStatus.OK, {"status": "ready"})
             else:
-                self._send_json(
-                    HTTPStatus.SERVICE_UNAVAILABLE, {"status": "shutting down"}
-                )
+                self._send_json(HTTPStatus.SERVICE_UNAVAILABLE, {"status": "shutting down"})
         elif path == "/items":
             self._send_json(HTTPStatus.OK, {"items": self.store.list()})
         elif path == "/openapi.json":
@@ -288,9 +283,7 @@ def main():
     service = Service(host=args.host, port=args.port)
 
     def handle_signal(signum, frame):
-        sig_name = (
-            signal.Signals(signum).name if hasattr(signal, "Signals") else str(signum)
-        )
+        sig_name = signal.Signals(signum).name if hasattr(signal, "Signals") else str(signum)
         service.shutdown(reason=f"received {sig_name}")
 
     # Register OS signals for graceful shutdown

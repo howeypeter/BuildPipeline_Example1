@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Automated smoke test for running microservice containers.
 
 Tests liveness (/healthz), readiness (/readyz), and service-specific endpoints

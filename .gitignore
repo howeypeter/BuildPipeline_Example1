@@ -1,0 +1,29 @@
+# Byte-compiled / optimized / DLL files
+**/__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+**/.venv/
+app/.venv/
+.venv/
+venv/
+ENV/
+env/
+
+# Linter & Tooling caches
+.ruff_cache/
+**/.ruff_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# IDE & Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db

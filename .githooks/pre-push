@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# Git pre-push advisory notification.
+# Prints a friendly reminder to the developer, then allows the push to proceed immediately.
+# Never blocks the push.
+
+echo ""
+echo "========================================================================"
+echo "🔔 DEVELOPER REMINDER"
+echo "Before pushing, remember to verify your changes locally:"
+echo "   make validate  Run formatting, linting, and tests all in one command"
+echo "   make lint-ai   Check AI quality and consistency advisory"
+echo "========================================================================"
+echo ""
+
+# Always allow the push to proceed immediately
+exit 0

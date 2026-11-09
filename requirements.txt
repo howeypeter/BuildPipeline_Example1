@@ -1,0 +1,2 @@
+# Zero external runtime dependencies.
+# The application uses Python standard library modules only (http.server, json, logging, signal).

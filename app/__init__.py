@@ -1,0 +1,1 @@
+"""Minimal web service package."""

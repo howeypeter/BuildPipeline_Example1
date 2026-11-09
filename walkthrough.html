@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enterprise Delivery Pipeline: Golden Path & Gateway Standards</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #060911;
+      --surface: #0c1220;
+      --surface-elevated: #111a2e;
+      --border: #1e293b;
+      --border-accent: rgba(56, 189, 248, 0.25);
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-tertiary: #64748b;
+      --blue: #38bdf8;
+      --green: #34d399;
+      --amber: #fbbf24;
+      --purple: #a78bfa;
+      --code-bg: #030610;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg);
+      color: var(--text-primary);
+      line-height: 1.65;
+      padding: 2.5rem 1.25rem 6rem 1.25rem;
+    }
+
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+
+    header {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 2.25rem;
+      margin-bottom: 2rem;
+    }
+
+    .badge-bar {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.25rem;
+    }
+
+    .badge {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0.3rem 0.85rem;
+      border-radius: 9999px;
+      border: 1px solid;
+    }
+
+    .badge-blue { color: var(--blue); border-color: rgba(56, 189, 248, 0.35); background: rgba(56, 189, 248, 0.08); }
+    .badge-green { color: var(--green); border-color: rgba(52, 211, 153, 0.35); background: rgba(52, 211, 153, 0.08); }
+    .badge-amber { color: var(--amber); border-color: rgba(251, 191, 36, 0.35); background: rgba(251, 191, 36, 0.08); }
+    .badge-purple { color: var(--purple); border-color: rgba(167, 139, 250, 0.35); background: rgba(167, 139, 250, 0.08); }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      letter-spacing: -0.035em;
+      color: #ffffff;
+      margin-bottom: 0.75rem;
+    }
+
+    .subtitle {
+      font-size: 1.12rem;
+      color: var(--text-secondary);
+      max-width: 960px;
+      font-weight: 400;
+    }
+
+    /* Modern Pill Navigation */
+    .nav-bar {
+      position: sticky;
+      top: 1rem;
+      z-index: 50;
+      background: rgba(12, 18, 32, 0.88);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      padding: 0.45rem;
+      border-radius: 9999px;
+      margin-bottom: 3rem;
+      display: inline-flex;
+      gap: 0.35rem;
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7);
+    }
+
+    .nav-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.84rem;
+      font-weight: 600;
+      padding: 0.45rem 1.15rem;
+      border-radius: 9999px;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      white-space: nowrap;
+    }
+
+    .nav-link:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .nav-link:focus, .nav-link.active {
+      color: #ffffff;
+      background: var(--blue);
+      color: #060911;
+      font-weight: 700;
+    }
+
+    h2 {
+      font-size: 1.65rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-top: 3.5rem;
+      margin-bottom: 1.25rem;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.75rem;
+    }
+
+    h3 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--blue);
+      margin-top: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      color: var(--text-secondary);
+      margin-bottom: 1.25rem;
+      font-size: 0.98rem;
+    }
+
+    strong { color: #ffffff; }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
+    }
+
+    .canvas-container {
+      background: #030610;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      margin: 1.75rem 0;
+      overflow-x: auto;
+    }
+
+    svg {
+      display: block;
+      margin: 0 auto;
+      max-width: 100%;
+      height: auto;
+    }
+
+    pre, code {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    pre {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.2rem;
+      overflow-x: auto;
+      font-size: 0.88rem;
+      color: #e2e8f0;
+      margin-bottom: 1.25rem;
+    }
+
+    p code, li code {
+      background: rgba(255, 255, 255, 0.06);
+      padding: 0.2rem 0.45rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      color: var(--blue);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    ul, ol {
+      margin-left: 1.5rem;
+      margin-bottom: 1.25rem;
+      color: var(--text-secondary);
+    }
+
+    li { margin-bottom: 0.5rem; }
+
+    .callout {
+      border-left: 3px solid var(--blue);
+      background: rgba(56, 189, 248, 0.05);
+      padding: 1.35rem;
+      border-radius: 0 12px 12px 0;
+      margin: 1.5rem 0;
+    }
+
+    .callout-amber {
+      border-left-color: var(--amber);
+      background: rgba(251, 191, 36, 0.05);
+    }
+
+    .callout-green {
+      border-left-color: var(--green);
+      background: rgba(52, 211, 153, 0.05);
+    }
+
+    .callout-title {
+      font-weight: 700;
+      font-size: 0.92rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.4rem;
+    }
+
+    .callout-blue .callout-title { color: var(--blue); }
+    .callout-amber .callout-title { color: var(--amber); }
+    .callout-green .callout-title { color: var(--green); }
+
+    .step-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.2rem 0.65rem;
+      background: rgba(56, 189, 248, 0.12);
+      color: var(--blue);
+      font-weight: 700;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      margin-right: 0.5rem;
+      border: 1px solid rgba(56, 189, 248, 0.25);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+      font-size: 0.92rem;
+    }
+
+    th, td {
+      padding: 0.9rem 1.1rem;
+      text-align: left;
+      border: 1px solid var(--border);
+    }
+
+    th {
+      background: #0f172a;
+      color: #ffffff;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.78rem;
+      letter-spacing: 0.06em;
+    }
+
+    td {
+      background: rgba(12, 18, 32, 0.6);
+      color: var(--text-secondary);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 860px) {
+      .grid-2 { grid-template-columns: 1fr; }
+      body { padding: 1.5rem 0.75rem; }
+      h1 { font-size: 2rem; }
+      .nav-bar { width: 100%; overflow-x: auto; border-radius: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="badge-bar">
+        <span class="badge badge-blue">Enterprise Delivery Pipeline</span>
+        <span class="badge badge-green">Multi-Microservice Architecture</span>
+        <span class="badge badge-amber">Automated Gateway Standards</span>
+        <span class="badge badge-purple">Zero Runtime Dependencies</span>
+      </div>
+      <h1>Enterprise Delivery Pipeline</h1>
+      <p class="subtitle">A hardened, production-minded path from code commit to immutable container artifacts. Built on the core principle of platform acceleration: enabling developers to ship rapidly with zero friction while automatically validating organizational security, reliability, and contract standards.</p>
+    </header>
+
+    <!-- MODERN FLOATING PILL NAV -->
+    <nav class="nav-bar">
+      <a href="#section-golden-path" class="nav-link">Developer Golden Path</a>
+      <a href="#section-stakeholders" class="nav-link">Stakeholders</a>
+      <a href="#section-pipeline" class="nav-link">Pipeline & Standards</a>
+      <a href="#section-upstream" class="nav-link">Upstream Inheritance (90/10)</a>
+      <a href="#section-operations" class="nav-link">Operations & Drain</a>
+    </nav>
+
+    <!-- SECTION 1: DEVELOPER GOLDEN PATH -->
+    <section id="section-golden-path">
+      <h2>1. Developer Experience & Local Toolchain</h2>
+      <p>Modeled on modern platform engineering principles, the build pipeline is designed as an <strong>accelerator, not a roadblock</strong>. The goal is to maximize developer velocity by providing a seamless local toolchain with automated guardrails. Quality, security, and packaging guarantees run automatically so product teams can focus on customer features with total confidence.</p>
+
+      <div class="callout callout-blue">
+        <div class="callout-title">Platform Accelerator: Multi-Service Workspace</div>
+        The workspace automatically discovers any directory matching <code>app*</code> or <code>svc*</code> containing a <code>main.py</code> (such as primary service <code>app/</code> and telemetry sidecar <code>svc_sidecar/</code>). Developers can build, test, and package single microservices or the entire fleet using identical, zero-boilerplate commands.
+      </div>
+
+      <div class="card">
+        <h3>Local Developer Workflow</h3>
+        
+        <p><span class="step-pill">STEP 01</span> <strong>Setup Isolated Virtual Environment</strong></p>
+        <p>Creates an isolated Python 3.12 environment in <code>app/.venv</code> matching the container base image:</p>
+        <pre><code>make venv</code></pre>
+
+        <p><span class="step-pill">STEP 02</span> <strong>One Command Fast Local Validation</strong></p>
+        <p>Runs code formatting, Ruff static linting, and all tests across every microservice simultaneously in under 2 seconds:</p>
+        <pre><code>make validate SERVICE=all</code></pre>
+
+        <p><span class="step-pill">STEP 03</span> <strong>Target Specific Service Test Suites</strong></p>
+        <p>Isolate tests to a specific application or sidecar without executing unrelated suites:</p>
+        <pre><code>make test SERVICE=app
+make test SERVICE=svc_sidecar</code></pre>
+
+        <p><span class="step-pill">STEP 04</span> <strong>Advisory AI Code Quality Review</strong></p>
+        <p>Runs non-blocking AI consistency recommendations without causing pipeline friction or build failures:</p>
+        <pre><code>make lint-ai</code></pre>
+
+        <p><span class="step-pill">STEP 05</span> <strong>Local Hardened Container Packaging & Smoke Check</strong></p>
+        <p>Builds container images using <code>ARG SERVICE_DIR</code> and validates user 65532:65532, healthchecks, and read-only execution locally:</p>
+        <pre><code>make docker-build SERVICE=app
+make docker-run SERVICE=app
+
+make docker-build SERVICE=svc_sidecar
+make docker-run SERVICE=svc_sidecar</code></pre>
+      </div>
+
+      <!-- DEVELOPER PLATFORM CONTRACT -->
+      <div class="grid-2">
+        <div class="card">
+          <h3>Developer Platform Standard: Structured JSON Logging</h3>
+          <p>Unstructured text logs break centralized log query aggregators (such as CloudWatch, Datadog, or Elastic). Microservices automatically emit single line JSON records conforming to platform standards:</p>
+          <pre><code>{
+  "timestamp": "2026-11-08T05:31:55.123456+00:00",
+  "level": "INFO",
+  "logger": "app",
+  "service": "app",
+  "message": "handled request",
+  "method": "POST",
+  "path": "/items",
+  "status": 201,
+  "duration_ms": 1.45,
+  "client_ip": "127.0.0.1",
+  "request_id": "a17f2231-155e-42ab-9cf0-df8efbc2a2ee"
+}</code></pre>
+          <p>Required platform keys include ISO 8601 UTC <code>timestamp</code>, uppercase <code>level</code>, registered <code>service</code>, correlation <code>request_id</code>, and latency <code>duration_ms</code>.</p>
+        </div>
+
+        <div class="card">
+          <h3>Developer Platform Standard: API Interface Contract</h3>
+          <p>To integrate cleanly with service meshes, API gateways, and client SDK generators, every service conforms to standard interface rules:</p>
+          <ul>
+            <li><strong>OpenAPI Contract Serving</strong>: Exposes its machine-readable schema on <code>GET /openapi.json</code>.</li>
+            <li><strong>Semantic Validation Status</strong>: Returns <code>422 Unprocessable Entity</code> for invalid input payloads, rejecting malformed data with structured error bodies.</li>
+            <li><strong>Probe Separation</strong>: Distinct separation between liveness (<code>/healthz</code>) and traffic readiness (<code>/readyz</code>).</li>
+            <li><strong>Correlation ID Tracking</strong>: Accepts incoming <code>X-Request-ID</code> or generates a UUID, propagating it through headers and structured logs.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Service API Specifications</h3>
+        
+        <p><strong>Primary Application Service (<code>app/</code>)</strong></p>
+        <table>
+          <thead>
+            <tr><th>Method</th><th>Endpoint</th><th>Status</th><th>Description</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>GET</code></td><td><code>/healthz</code></td><td>200 OK</td><td>Liveness probe. Confirms process event loop is responsive.</td></tr>
+            <tr><td><code>GET</code></td><td><code>/readyz</code></td><td>200 / 503</td><td>Readiness probe. Flips to 503 upon SIGTERM to withdraw traffic during shutdown.</td></tr>
+            <tr><td><code>GET</code></td><td><code>/items</code></td><td>200 OK</td><td>Lists stored items in memory.</td></tr>
+            <tr><td><code>POST</code></td><td><code>/items</code></td><td>201 / 422</td><td>Creates item. Enforces string validation and rejects invalid payloads with 422.</td></tr>
+            <tr><td><code>GET</code></td><td><code>/openapi.json</code></td><td>200 OK</td><td>Serves OpenAPI 3.1.0 contract for gateways and clients.</td></tr>
+          </tbody>
+        </table>
+
+        <p style="margin-top: 1.5rem;"><strong>Auxiliary Sidecar Service (<code>svc_sidecar/</code>)</strong></p>
+        <table>
+          <thead>
+            <tr><th>Method</th><th>Endpoint</th><th>Status</th><th>Description</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>GET</code></td><td><code>/healthz</code></td><td>200 OK</td><td>Liveness probe. Returns sidecar process status.</td></tr>
+            <tr><td><code>GET</code></td><td><code>/readyz</code></td><td>200 / 503</td><td>Readiness probe. Flips to 503 during sidecar connection draining.</td></tr>
+            <tr><td><code>GET</code></td><td><code>/status</code></td><td>200 OK</td><td>Telemetry status probe. Emits sidecar uptime and operational role.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- SECTION 2: STAKEHOLDERS & GOVERNANCE -->
+    <section id="section-stakeholders">
+      <h2>2. Pipeline Stakeholders & Shared Governance</h2>
+      <p>An enterprise delivery pipeline is not built or operated in isolation. It serves as a shared operational framework connecting five core organizational stakeholders. While the Platform team instruments and operates the automated pipeline end to end, each stakeholder defines policy standards that are codified directly into the automated paved road:</p>
+
+      <div class="card">
+        <h3>Stakeholder Roles & Standards Authority</h3>
+        <table>
+          <thead>
+            <tr><th>Stakeholder</th><th>Primary Role</th><th>Standards Defined</th><th>Business Objective</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Product Developers</strong></td>
+              <td>Pipeline Consumer</td>
+              <td>Code quality, unit tests, fast feedback</td>
+              <td>Rapid feature delivery with zero bureaucratic delays and clear diagnostics.</td>
+            </tr>
+            <tr>
+              <td><strong>Platform Engineering</strong></td>
+              <td>Pipeline Instrumenter</td>
+              <td>Paved road automation, base images, tooling</td>
+              <td>High developer leverage, automated layer caching, and frictionless workflows.</td>
+            </tr>
+            <tr>
+              <td><strong>Information Security (InfoSec)</strong></td>
+              <td>Security Standards Authority</td>
+              <td>SCA dependencies, container CVEs, secrets</td>
+              <td>Zero High/Critical flaws, license compliance, and cryptographic provenance.</td>
+            </tr>
+            <tr>
+              <td><strong>Site Reliability (SRE)</strong></td>
+              <td>Availability Authority</td>
+              <td>Probe separation, graceful drain, Spot resilience</td>
+              <td>Zero dropped customer requests during rolling deployments and node terminations.</td>
+            </tr>
+            <tr>
+              <td><strong>Quality Engineering (QE)</strong></td>
+              <td>Contract & Performance Authority</td>
+              <td>OpenAPI conformance, 422 validation, latency SLAs</td>
+              <td>Schema compliance, clean error responses, and memory stability under load.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- SECTION 3: CI PIPELINE & GATEWAY STANDARDS -->
+    <section id="section-pipeline">
+      <h2>3. Automated Build Pipeline & Embedded Gateway Standards</h2>
+      <p>The delivery pipeline validates every commit, automatically enforcing standards established across InfoSec, Platform, Reliability, and QA domains. Rather than creating roadblocks or manual approval queues, these gateways are instrumented directly into the automated paved path.</p>
+
+      <!-- MODERN BESPOKE SVG ARCHITECTURE CANVAS -->
+      <div class="canvas-container">
+        <svg viewBox="0 0 1060 480" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="blueGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#1e293b"/>
+              <stop offset="100%" stop-color="#0f172a"/>
+            </linearGradient>
+            <linearGradient id="amberGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#2a1b05"/>
+              <stop offset="100%" stop-color="#140e03"/>
+            </linearGradient>
+            <linearGradient id="greenGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#062e22"/>
+              <stop offset="100%" stop-color="#031711"/>
+            </linearGradient>
+            <filter id="shadow" x="-5%" y="-5%" width="110%" height="115%">
+              <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#000000" flood-opacity="0.6"/>
+            </filter>
+          </defs>
+
+          <!-- CONNECTING PATH LINE -->
+          <path d="M 115 70 L 325 70 L 535 70 L 745 70 L 955 70 L 955 180 L 115 180 L 115 310 L 325 310 L 535 310 L 745 310 L 955 310" 
+                fill="none" stroke="#1e293b" stroke-width="4" stroke-dasharray="8 6"/>
+
+          <!-- CARD 1: CHECKOUT -->
+          <g transform="translate(25, 25)" filter="url(#shadow)">
+            <rect width="185" height="90" rx="14" fill="url(#blueGlow)" stroke="#38bdf8" stroke-width="1.5"/>
+            <text x="18" y="32" font-family="Inter" font-size="10" font-weight="700" fill="#38bdf8" letter-spacing="1">STEP 01</text>
+            <text x="18" y="52" font-family="Inter" font-size="14" font-weight="700" fill="#ffffff">Checkout Source</text>
+            <text x="18" y="70" font-family="JetBrains Mono" font-size="11" fill="#94a3b8">actions/checkout@v4</text>
+          </g>
+
+          <!-- CARD 2: DISCOVERY -->
+          <g transform="translate(235, 25)" filter="url(#shadow)">
+            <rect width="185" height="90" rx="14" fill="url(#blueGlow)" stroke="#38bdf8" stroke-width="1.5"/>
+            <text x="18" y="32" font-family="Inter" font-size="10" font-weight="700" fill="#38bdf8" letter-spacing="1">STEP 02</text>
+            <text x="18" y="52" font-family="Inter" font-size="14" font-weight="700" fill="#ffffff">Service Discovery</text>
+            <text x="18" y="70" font-family="JetBrains Mono" font-size="11" fill="#94a3b8">app* and svc* matrix</text>
+          </g>
+
+          <!-- CARD 3: PLATFORM GATE (LINT & TEST) -->
+          <g transform="translate(445, 25)" filter="url(#shadow)">
+            <rect width="185" height="90" rx="14" fill="url(#blueGlow)" stroke="#38bdf8" stroke-width="1.5"/>
+            <text x="18" y="32" font-family="Inter" font-size="10" font-weight="700" fill="#38bdf8" letter-spacing="1">PLATFORM GATE</text>
+            <text x="18" y="52" font-family="Inter" font-size="14" font-weight="700" fill="#ffffff">Code Standards</text>
+            <text x="18" y="70" font-family="JetBrains Mono" font-size="11" fill="#94a3b8">Ruff & Unit Matrix</text>
+          </g>
+
+          <!-- CARD 4: INFOSEC GATE 01 (SNYK SCA) -->
+          <g transform="translate(655, 25)" filter="url(#shadow)">
+            <rect width="185" height="90" rx="14" fill="url(#amberGlow)" stroke="#fbbf24" stroke-width="2"/>
+            <text x="18" y="32" font-family="Inter" font-size="10" font-weight="700" fill="#fbbf24" letter-spacing="1">INFOSEC GATE 01</text>
+            <text x="18" y="52" font-family="Inter" font-size="14" font-weight="700" fill="#ffffff">Snyk Open Source</text>
+            <text x="18" y="70" font-family="Inter" font-size="11" fill="#fde68a">Scans deps for CVEs</text>
+          </g>
+
+          <!-- CARD 5: PLATFORM GATE (BASE IMAGE) -->
+          <g transform="translate(865, 25)" filter="url(#shadow)">
+            <rect width="185" height="90" rx="14" fill="url(#blueGlow)" stroke="#38bdf8" stroke-width="1.5"/>
+            <text x="18" y="32" font-family="Inter" font-size="10" font-weight="700" fill="#38bdf8" letter-spacing="1">PLATFORM GATE</text>
+            <text x="18" y="52" font-family="Inter" font-size="14" font-weight="700" fill="#ffffff">Golden Base Check</text>
+            <text x="18" y="70" font-family="JetBrains Mono" font-size="11" fill="#94a3b8">Digest Pinned Base</text>
+          </g>
+
+          <!-- CARD 6: PLATFORM GATE (PACKAGING) -->
+          <g transform="translate(25, 265)" filter="url(#shadow)">
+            <rect width="185" height="90" rx="14" fill="url(#blueGlow)" stroke="#38bdf8" stroke-width="1.5"/>
+            <text x="18" y="32" font-family="Inter" font-size="10" font-weight="700" fill="#38bdf8" letter-spacing="1">PLATFORM GATE</text>
+            <text x="18" y="52" font-family="Inter" font-size="14" font-weight="700" fill="#ffffff">Matrix Packaging</text>
+            <text x="18" y="70" font-family="Inter" font-size="11" fill="#94a3b8">USER 65532:65532</text>
+          </g>
+
+          <!-- CARD 7: SUPPLY CHAIN (SBOM) -->
+          <g transform="translate(235, 265)" filter="url(#shadow)">
+            <rect width="185" height="90" rx="14" fill="url(#blueGlow)" stroke="#38bdf8" stroke-width="1.5"/>
+            <text x="18" y="32" font-family="Inter" font-size="10" font-weight="700" fill="#38bdf8" letter-spacing="1">SUPPLY CHAIN GATE</text>
+            <text x="18" y="52" font-family="Inter" font-size="14" font-weight="700" fill="#ffffff">Generate SBOM</text>
+            <text x="18" y="70" font-family="JetBrains Mono" font-size="11" fill="#94a3b8">anchore/sbom-action</text>
+          </g>
+
+          <!-- CARD 8: INFOSEC GATE 02 (SNYK CONTAINER) -->
+          <g transform="translate(445, 265)" filter="url(#shadow)">
+            <rect width="185" height="90" rx="14" fill="url(#amberGlow)" stroke="#fbbf24" stroke-width="2"/>
+            <text x="18" y="32" font-family="Inter" font-size="10" font-weight="700" fill="#fbbf24" letter-spacing="1">INFOSEC GATE 02</text>
+            <text x="18" y="52" font-family="Inter" font-size="14" font-weight="700" fill="#ffffff">Snyk Container Scan</text>
+            <text x="18" y="70" font-family="Inter" font-size="11" fill="#fde68a">Zero High/Critical CVEs</text>
+          </g>
+
+          <!-- CARD 9: RELIABILITY GATE (SMOKE) -->
+          <g transform="translate(655, 265)" filter="url(#shadow)">
+            <rect width="185" height="90" rx="14" fill="url(#blueGlow)" stroke="#38bdf8" stroke-width="1.5"/>
+            <text x="18" y="32" font-family="Inter" font-size="10" font-weight="700" fill="#38bdf8" letter-spacing="1">RELIABILITY GATE</text>
+            <text x="18" y="52" font-family="Inter" font-size="14" font-weight="700" fill="#ffffff">Runtime Smoke</text>
+            <text x="18" y="70" font-family="JetBrains Mono" font-size="11" fill="#94a3b8">Probes & Read-Only</text>
+          </g>
+
+          <!-- CARD 10: IMMUTABLE PUBLISH -->
+          <g transform="translate(865, 265)" filter="url(#shadow)">
+            <rect width="185" height="90" rx="14" fill="url(#greenGlow)" stroke="#34d399" stroke-width="2"/>
+            <text x="18" y="32" font-family="Inter" font-size="10" font-weight="700" fill="#34d399" letter-spacing="1">RUNNABLE ARTIFACT</text>
+            <text x="18" y="52" font-family="Inter" font-size="14" font-weight="700" fill="#ffffff">Publish Image</text>
+            <text x="18" y="70" font-family="JetBrains Mono" font-size="11" fill="#6ee7b7">AWS ECR / GHCR :sha</text>
+          </g>
+        </svg>
+      </div>
+
+      <!-- STANDARDS BREAKDOWN CARDS -->
+      <div class="grid-2">
+        <div class="card">
+          <h3>InfoSec Gateway Standards</h3>
+          <p><strong>Standards Authority</strong>: Information Security (SecOps)</p>
+          <p><strong>Gate 1: Snyk Open Source (SCA)</strong></p>
+          <p>Scans dependencies prior to compilation against vulnerability databases. Automatically fails builds on High or Critical severity flaws.</p>
+          <p><strong>Gate 2: Snyk Container</strong></p>
+          <p>Scans the assembled container layers, OS libraries, and system binaries. Enforces zero High or Critical vulnerabilities before admission.</p>
+        </div>
+
+        <div class="card">
+          <h3>Platform & Supply Chain Standards</h3>
+          <p><strong>Standards Authority</strong>: Developer Platform Architecture</p>
+          <p><strong>Golden Base Image Provenance</strong></p>
+          <p>Validated via <code>make verify-base-image</code>. Requires Chainguard Wolfi base pinned strictly by SHA256 multi-arch digest. Rejects floating tags.</p>
+          <p><strong>Software Bill of Materials (SBOM)</strong></p>
+          <p>Generates cryptographic machine-readable SPDX inventories (<code>anchore/sbom-action</code>) published as verifiable build artifacts.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: UPSTREAM PLATFORM INHERITANCE -->
+    <section id="section-upstream">
+      <h2>4. Upstream Platform Inheritance: The 90/10 Architecture</h2>
+      <p>Developers should never have to manually construct hundreds of lines of Kubernetes YAML or Helm boilerplate. The 90%+ platform defaults are built by an upstream process and inherited automatically.</p>
+
+      <div class="card">
+        <h3>Upstream Chart Architecture</h3>
+        <p>A centralized platform engineering pipeline builds, hardens, and publishes the official standard service Helm chart as a versioned package. When product teams launch a microservice, they simply reference the upstream chart as a dependency.</p>
+
+        <div class="callout callout-blue">
+          <div class="callout-title">Zero Boilerplate for Developers</div>
+          Developers do not need to specify "Use port 8000", configure liveness probe paths, or define security contexts. All of the following are inherited platform defaults:
+          <ul>
+            <li><strong>Port 8000</strong>: Pre-configured across container, Kubernetes Service, and Ingress routing.</li>
+            <li><strong>Hardened Security Context</strong>: Numeric unprivileged user <code>65532:65532</code>, dropped Linux capabilities, and read-only root filesystem.</li>
+            <li><strong>Health Probes Wiring</strong>: Liveness (<code>/healthz</code>) and readiness (<code>/readyz</code>) automatically wired with socket draining delays.</li>
+            <li><strong>Horizontal Pod Autoscaling (HPA)</strong>: Compute scaling policies pre-configured.</li>
+          </ul>
+        </div>
+
+        <div class="callout callout-amber">
+          <div class="callout-title">Autoscaling Principle: Why We Never Scale on Memory</div>
+          Autoscaling must always be driven by <strong>CPU utilization</strong>, <strong>request volume</strong>, or <strong>queue depth (such as SQS or Kafka via KEDA)</strong>. Autoscaling must <strong>never scale on memory</strong> because language runtimes (Python, Java, Node) retain allocated memory and cached buffers, which prevents downscaling and leads to scaling thrashing.
+        </div>
+
+        <h3>What the Developer Actually Writes</h3>
+        <p>The product developer repository contains only the minimal 10% configuration:</p>
+
+        <pre><code># Chart.yaml in developer repo (inherits upstream chart)
+apiVersion: v2
+name: sensor-service
+version: 1.0.0
+dependencies:
+  - name: standard-service
+    version: "2.4.0"
+    repository: "oci://registry.internal.corp/charts"
+
+# values.yaml in developer repo (Only the 10% configuration)
+# Note: Port 8000, probes, security contexts, and autoscaling are inherited automatically.
+standard-service:
+  serviceName: "sensor-ingest"</code></pre>
+      </div>
+    </section>
+
+    <!-- SECTION 5: OPERATIONS, PROBES & ROLLBACK -->
+    <section id="section-operations">
+      <h2>5. Reliability Gateway, Health Probes & Socket Draining</h2>
+      <p>A production-ready service coordinates with Kubernetes ingress, AWS Target Groups, and orchestrator signals to guarantee zero dropped requests during rolling upgrades and spot node evacuations.</p>
+
+      <div class="card">
+        <h3>How /readyz Enables Graceful Socket Draining</h3>
+        <p>During rolling deployments or AWS Spot terminations, Kubernetes sends a <code>SIGTERM</code> signal to the container. To prevent dropped connections:</p>
+        <ol>
+          <li><strong>Readiness Flips to 503</strong>: The service marks <code>is_ready = False</code>. The next probe to <code>/readyz</code> returns 503.</li>
+          <li><strong>Traffic Withdrawn</strong>: The upstream load balancer stops routing new requests to this pod replica.</li>
+          <li><strong>Socket Draining</strong>: The server keeps listening to allow active in-flight requests to complete cleanly.</li>
+          <li><strong>Clean Termination</strong>: Once active requests reach zero, the server closes listener sockets and exits with code 0.</li>
+        </ol>
+
+        <!-- SLEEK SVG HORIZONTAL DRAIN SEQUENCE -->
+        <div class="canvas-container">
+          <svg viewBox="0 0 900 130" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="drainBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#1e293b"/>
+                <stop offset="100%" stop-color="#0f172a"/>
+              </linearGradient>
+              <linearGradient id="drainAmber" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#2a1b05"/>
+                <stop offset="100%" stop-color="#140e03"/>
+              </linearGradient>
+              <linearGradient id="drainGreen" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#062e22"/>
+                <stop offset="100%" stop-color="#031711"/>
+              </linearGradient>
+            </defs>
+
+            <g transform="translate(10, 20)">
+              <rect width="190" height="85" rx="12" fill="url(#drainBlue)" stroke="#38bdf8" stroke-width="1.5"/>
+              <text x="16" y="32" font-family="Inter" font-size="10" font-weight="700" fill="#38bdf8" letter-spacing="1">PHASE 01</text>
+              <text x="16" y="52" font-family="Inter" font-size="13" font-weight="700" fill="#ffffff">SIGTERM Received</text>
+              <text x="16" y="70" font-family="Inter" font-size="11" fill="#94a3b8">Orchestrator signal</text>
+            </g>
+
+            <path d="M 205 62 L 235 62" stroke="#64748b" stroke-width="2"/>
+
+            <g transform="translate(240, 20)">
+              <rect width="190" height="85" rx="12" fill="url(#drainAmber)" stroke="#fbbf24" stroke-width="1.5"/>
+              <text x="16" y="32" font-family="Inter" font-size="10" font-weight="700" fill="#fbbf24" letter-spacing="1">PHASE 02</text>
+              <text x="16" y="52" font-family="Inter" font-size="13" font-weight="700" fill="#ffffff">Flip /readyz to 503</text>
+              <text x="16" y="70" font-family="Inter" font-size="11" fill="#fde68a">Traffic withdrawn</text>
+            </g>
+
+            <path d="M 435 62 L 465 62" stroke="#64748b" stroke-width="2"/>
+
+            <g transform="translate(470, 20)">
+              <rect width="190" height="85" rx="12" fill="url(#drainBlue)" stroke="#38bdf8" stroke-width="1.5"/>
+              <text x="16" y="32" font-family="Inter" font-size="10" font-weight="700" fill="#38bdf8" letter-spacing="1">PHASE 03</text>
+              <text x="16" y="52" font-family="Inter" font-size="13" font-weight="700" fill="#ffffff">Drain Requests</text>
+              <text x="16" y="70" font-family="Inter" font-size="11" fill="#94a3b8">Active sockets finish</text>
+            </g>
+
+            <path d="M 665 62 L 695 62" stroke="#64748b" stroke-width="2"/>
+
+            <g transform="translate(700, 20)">
+              <rect width="190" height="85" rx="12" fill="url(#drainGreen)" stroke="#34d399" stroke-width="1.5"/>
+              <text x="16" y="32" font-family="Inter" font-size="10" font-weight="700" fill="#34d399" letter-spacing="1">PHASE 04</text>
+              <text x="16" y="52" font-family="Inter" font-size="13" font-weight="700" fill="#ffffff">Clean Exit</text>
+              <text x="16" y="70" font-family="Inter" font-size="11" fill="#6ee7b7">Process code 0</text>
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Promotion & Zero-Rebuild Rollbacks</h3>
+        <p><strong>Build Once, Promote Everywhere</strong></p>
+        <p>The CI pipeline builds the container image once from the Git commit SHA. That identical container image is promoted across environments (Dev, Staging, Production). Only environment variables and secrets change between environments.</p>
+
+        <p><strong>Instant Rollback Mechanism</strong></p>
+        <p>If an issue occurs in production, <strong>never trigger a rebuild</strong>. Rollback is executed by updating the Kubernetes deployment manifest (ArgoCD Application, Flux, or Helm release) to point to the previous immutable Git SHA tag (such as <code>:sha-previous</code>). Because the image is cached in the registry, rollbacks complete in seconds.</p>
+      </div>
+    </section>
+  </div>
+</body>
+</html>

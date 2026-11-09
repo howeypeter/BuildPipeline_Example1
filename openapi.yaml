@@ -1,0 +1,129 @@
+openapi: 3.1.0
+info:
+  title: Microservice Core HTTP API
+  version: 1.0.0
+  description: Minimal production ready HTTP service contract.
+paths:
+  /healthz:
+    get:
+      summary: Liveness Probe
+      description: Returns 200 OK while the application process is running.
+      responses:
+        '200':
+          description: Service is alive
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - status
+                properties:
+                  status:
+                    type: string
+                    example: ok
+
+  /readyz:
+    get:
+      summary: Readiness Probe
+      description: Returns 200 OK when ready to accept traffic, or 503 while shutting down.
+      responses:
+        '200':
+          description: Service is ready for traffic
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - status
+                properties:
+                  status:
+                    type: string
+                    example: ready
+        '503':
+          description: Service is shutting down or draining
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - status
+                properties:
+                  status:
+                    type: string
+                    example: shutting down
+
+  /items:
+    get:
+      summary: List Items
+      description: Retrieve all stored items.
+      responses:
+        '200':
+          description: List of items
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - items
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Item'
+    post:
+      summary: Create Item
+      description: Create a new item with name validation.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+              properties:
+                name:
+                  type: string
+                  minLength: 1
+                  maxLength: 100
+                  example: sensor-alpha
+      responses:
+        '201':
+          description: Item created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+        '422':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+
+components:
+  schemas:
+    Item:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: sensor-alpha
+    ValidationError:
+      type: object
+      required:
+        - error
+        - detail
+      properties:
+        error:
+          type: string
+          example: Validation failed
+        detail:
+          type: string
+          example: Field 'name' cannot be empty or whitespace

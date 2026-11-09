@@ -11,7 +11,7 @@ GIT_SHA ?= $(shell git rev-parse --short HEAD 2>/dev/null || echo local)
 #   AWS ECR:     123456789012.dkr.ecr.us-east-1.amazonaws.com
 #   GHCR:        ghcr.io
 REGISTRY ?= ghcr.io
-REPO_NAMESPACE ?= howeypeter
+REPO_NAMESPACE ?= howeypeter/buildpipeline_example1
 
 # Target service to build/run (default: app; accepts any app* or svc* directory)
 SERVICE ?= app

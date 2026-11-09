@@ -85,17 +85,18 @@ jobs:
         id: vars
         run: |
           echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
-          echo "repo_path=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
+          echo "repo_owner=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
+          echo "repo_name=$(echo "${{ github.event.repository.name }}" | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
 
       - name: Build Container Image
         run: |
-          IMAGE_TAG="${{ env.REGISTRY }}/${{ steps.vars.outputs.repo_path }}/${{ matrix.service }}:sha-${{ steps.vars.outputs.sha_short }}"
+          IMAGE_TAG="${{ env.REGISTRY }}/${{ steps.vars.outputs.repo_owner }}/${{ steps.vars.outputs.repo_name }}-${{ matrix.service }}:sha-${{ steps.vars.outputs.sha_short }}"
           make docker-build SERVICE=${{ matrix.service }} IMAGE_TAG=$IMAGE_TAG
 
       - name: Generate Software Bill of Materials (SBOM)
         uses: anchore/sbom-action@v0
         with:
-          image: ${{ env.REGISTRY }}/${{ steps.vars.outputs.repo_path }}/${{ matrix.service }}:sha-${{ steps.vars.outputs.sha_short }}
+          image: ${{ env.REGISTRY }}/${{ steps.vars.outputs.repo_owner }}/${{ steps.vars.outputs.repo_name }}-${{ matrix.service }}:sha-${{ steps.vars.outputs.sha_short }}
           format: spdx-json
           output-file: ./sbom-${{ matrix.service }}.spdx.json
 
@@ -107,7 +108,7 @@ jobs:
 
       - name: Validate Container Health & Runtime Behavior
         run: |
-          IMAGE_TAG="${{ env.REGISTRY }}/${{ steps.vars.outputs.repo_path }}/${{ matrix.service }}:sha-${{ steps.vars.outputs.sha_short }}"
+          IMAGE_TAG="${{ env.REGISTRY }}/${{ steps.vars.outputs.repo_owner }}/${{ steps.vars.outputs.repo_name }}-${{ matrix.service }}:sha-${{ steps.vars.outputs.sha_short }}"
           make docker-run SERVICE=${{ matrix.service }} IMAGE_TAG=$IMAGE_TAG
 
       # Registry authentication (defaults to GHCR token; for AWS ECR use aws-actions/amazon-ecr-login with OIDC)
@@ -122,7 +123,7 @@ jobs:
       - name: Push Immutable Artifact to Container Registry
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
-          IMAGE_TAG="${{ env.REGISTRY }}/${{ steps.vars.outputs.repo_path }}/${{ matrix.service }}:sha-${{ steps.vars.outputs.sha_short }}"
+          IMAGE_TAG="${{ env.REGISTRY }}/${{ steps.vars.outputs.repo_owner }}/${{ steps.vars.outputs.repo_name }}-${{ matrix.service }}:sha-${{ steps.vars.outputs.sha_short }}"
           docker push $IMAGE_TAG
 
       - name: Generate Pipeline Step Summary

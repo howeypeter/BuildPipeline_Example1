@@ -11,8 +11,8 @@ GIT_SHA ?= $(shell git rev-parse --short HEAD 2>/dev/null || echo local)
 #   AWS ECR:     123456789012.dkr.ecr.us-east-1.amazonaws.com
 #   GHCR:        ghcr.io
 REGISTRY ?= ghcr.io
-REPO_NAMESPACE ?= howeypeter/buildpipeline_example1
-SERVICE_PREFIX ?= microservice-
+REPO_NAMESPACE ?= howeypeter
+REPO_NAME ?= buildpipeline_example1
 
 # Target service to build/run (default: app; accepts any app* or svc* directory)
 SERVICE ?= app
@@ -23,9 +23,9 @@ SERVICE_SLUG ?= $(subst _,-,$(SERVICE))
 # List of discovered services matching app* or svc* containing main.py
 SERVICES ?= $(patsubst %/,%,$(dir $(wildcard app*/main.py svc*/main.py)))
 
-# Image naming: defaults to $(REGISTRY)/$(REPO_NAMESPACE)/$(SERVICE_PREFIX)$(SERVICE_SLUG)
-IMAGE_NAME ?= $(REGISTRY)/$(REPO_NAMESPACE)/$(SERVICE_PREFIX)$(SERVICE_SLUG)
-IMAGE_TAG ?= $(IMAGE_NAME):sha-$(GIT_SHA)
+# Image naming: defaults to $(REGISTRY)/$(REPO_NAMESPACE)/$(REPO_NAME):$(SERVICE_SLUG)-sha-$(GIT_SHA)
+IMAGE_NAME ?= $(REGISTRY)/$(REPO_NAMESPACE)/$(REPO_NAME)
+IMAGE_TAG ?= $(IMAGE_NAME):$(SERVICE_SLUG)-sha-$(GIT_SHA)
 PORT ?= 8000
 CONTAINER_NAME := microservice-$(SERVICE_SLUG)-test
 
@@ -116,7 +116,7 @@ services = [d for d in glob.glob("app*") + glob.glob("svc*") if os.path.isdir(d)
 print(f"Building images for services: {services}"); \
 for s in services: \
     slug = s.replace("_", "-"); \
-    res = subprocess.run(["docker", "build", "--build-arg", f"SERVICE_DIR={s}", "-t", f"$(REGISTRY)/$(REPO_NAMESPACE)/$(SERVICE_PREFIX){slug}:sha-$(GIT_SHA)", "."]); \
+    res = subprocess.run(["docker", "build", "--build-arg", f"SERVICE_DIR={s}", "-t", f"$(REGISTRY)/$(REPO_NAMESPACE)/$(REPO_NAME):{slug}-sha-$(GIT_SHA)", "."]); \
     if res.returncode != 0: sys.exit(res.returncode)'
 
 docker-run: docker-clean ## Run container for $(SERVICE) on port 8000, validate healthchecks and behavior
